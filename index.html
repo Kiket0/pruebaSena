@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prueba Sena - Medicina y Salud</title>
+    <title>🦖 Dino Runner - Juego HTML5</title>
     <style>
         * {
             margin: 0;
@@ -12,444 +12,398 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 50%, #e8f5e8 100%);
-            color: #333;
-            line-height: 1.6;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
             min-height: 100vh;
-        }
-
-        /* Header Sena Style */
-        header {
-            background: linear-gradient(90deg, #1976d2, #42a5f5);
-            color: white;
-            padding: 1rem 0;
-            box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .header-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 2rem;
-        }
-
-        .logo-sena {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .logo-sena img {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: white;
-            padding: 0.5rem;
-        }
-
-        .logo-text h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .timer {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 0.5rem 1rem;
-            border-radius: 25px;
-            backdrop-filter: blur(10px);
-        }
-
-        /* Main Container */
-        .main-container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 2rem;
-            display: grid;
-            grid-template-columns: 1fr 350px;
-            gap: 2rem;
-        }
-
-        /* Progress Bar */
-        .progress-section {
-            background: white;
-            border-radius: 15px;
-            padding: 1.5rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            margin-bottom: 2rem;
-        }
-
-        .progress-bar {
-            background: #f5f5f5;
-            height: 12px;
-            border-radius: 6px;
-            overflow: hidden;
-            margin: 1rem 0;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #4caf50, #8bc34a);
-            width: 45%;
-            transition: width 0.3s ease;
-            border-radius: 6px;
-        }
-
-        /* Question Section */
-        .questions-section {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }
 
-        .question-header {
-            background: linear-gradient(90deg, #1976d2, #42a5f5);
-            color: white;
-            padding: 1.5rem;
+        .game-container {
+            text-align: center;
+            position: relative;
         }
 
-        .question-number {
-            font-size: 1.2rem;
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-        }
-
-        .question-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-        }
-
-        .question-content {
-            padding: 2rem;
-        }
-
-        .question-image {
-            width: 100%;
-            max-width: 400px;
-            height: 250px;
-            object-fit: cover;
-            border-radius: 10px;
-            margin: 1rem 0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        /* Options */
-        .options-container {
-            margin: 2rem 0;
-        }
-
-        .option {
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-            padding: 1.2rem;
-            margin-bottom: 1rem;
-            background: #f8f9fa;
-            border: 2px solid transparent;
-            border-radius: 10px;
+        canvas {
+            border: 5px solid #fff;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            background: linear-gradient(to bottom, #87CEEB 0%, #98D8E8 70%, #F4A261 100%);
             cursor: pointer;
-            transition: all 0.3s ease;
         }
 
-        .option:hover {
-            background: #e3f2fd;
-            border-color: #2196f3;
-            transform: translateX(5px);
+        .game-ui {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            color: white;
+            font-weight: bold;
+            z-index: 10;
         }
 
-        .option.selected {
-            background: #e8f5e8;
-            border-color: #4caf50;
-            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+        .score {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
 
-        .option input[type="radio"] {
-            width: 20px;
-            height: 20px;
-            margin-top: 0.2rem;
-            accent-color: #1976d2;
+        .high-score {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
 
-        .option-text {
-            flex: 1;
-            font-size: 1.1rem;
-        }
-
-        /* Navigation Buttons */
-        .nav-buttons {
-            display: flex;
-            justify-content: space-between;
+        .game-over {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.9);
             padding: 2rem;
-            border-top: 1px solid #eee;
-            background: #f8f9fa;
+            border-radius: 20px;
+            display: none;
+        }
+
+        .game-over h2 {
+            color: #ff4757;
+            margin-bottom: 1rem;
+            font-size: 2.5rem;
+        }
+
+        .final-score {
+            font-size: 1.5rem;
+            margin: 1rem 0;
+            color: #fff;
         }
 
         .btn {
-            padding: 0.8rem 2rem;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
             border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
+            padding: 12px 30px;
+            font-size: 1.2rem;
+            color: white;
+            border-radius: 25px;
             cursor: pointer;
+            margin: 0.5rem;
+            font-weight: bold;
             transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
         }
 
-        .btn-primary {
-            background: linear-gradient(90deg, #1976d2, #42a5f5);
-            color: white;
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.6);
         }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(25, 118, 210, 0.4);
+        .instructions {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 14px;
+            opacity: 0.9;
         }
 
-        .btn-secondary {
-            background: #6c757d;
-            color: white;
+        .mobile-controls {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            display: none;
         }
 
-        .btn-secondary:hover {
-            background: #5a6268;
-            transform: translateY(-2px);
-        }
-
-        /* Sidebar */
-        .sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .question-nav {
-            background: white;
-            border-radius: 15px;
-            padding: 1.5rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            height: fit-content;
-        }
-
-        .question-nav h3 {
-            margin-bottom: 1rem;
-            color: #1976d2;
-        }
-
-        .questions-list {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 0.5rem;
-        }
-
-        .question-item {
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid #e0e0e0;
-        }
-
-        .question-item:hover {
-            transform: scale(1.1);
-        }
-
-        .question-item.answered {
-            background: #4caf50;
-            color: white;
-            border-color: #4caf50;
-        }
-
-        .question-item.current {
-            background: #1976d2;
-            color: white;
-            border-color: #1976d2;
-        }
-
-        .question-item.unanswered {
-            background: #fff3cd;
-            color: #856404;
-            border-color: #ffeaa7;
-        }
-
-        /* Statistics Card */
-        .stats-card {
-            background: white;
-            border-radius: 15px;
-            padding: 1.5rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-
-        .stat-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 1rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #eee;
-        }
-
-        .stat-item:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-        }
-
-        .stat-number {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #1976d2;
-        }
-
-        /* Responsive */
         @media (max-width: 768px) {
-            .main-container {
-                grid-template-columns: 1fr;
-                padding: 0 1rem;
+            canvas {
+                width: 95vw;
+                height: 50vh;
+                max-width: 400px;
+                max-height: 300px;
             }
-
-            .header-container {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
-            }
-
-            .questions-list {
-                grid-template-columns: repeat(4, 1fr);
-            }
-
-            .nav-buttons {
-                flex-direction: column;
-                gap: 1rem;
+            
+            .mobile-controls {
+                display: block;
             }
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="header-container">
-            <div class="logo-sena">
-                <div style="width: 60px; height: 60px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #1976d2; font-weight: bold;">SENA</div>
-                <div class="logo-text">
-                    <h1>Prueba de Competencias</h1>
-                    <p>Medicina y Salud</p>
-                </div>
+    <div class="game-container">
+        <canvas id="gameCanvas" width="800" height="400"></canvas>
+        
+        <div class="game-ui">
+            <div class="score" id="score">Puntos: 0</div>
+            <div class="high-score" id="highScore">Récord: 0</div>
+            
+            <div class="game-over" id="gameOver">
+                <h2>💥 ¡GAME OVER!</h2>
+                <div class="final-score" id="finalScore">Puntos: 0</div>
+                <div>🥇 Nuevo Récord!</div>
+                <button class="btn" onclick="restartGame()">🔄 Jugar de Nuevo</button>
             </div>
-            <div class="user-info">
-                <div class="timer">
-                    ⏱️ 01:45:23
-                </div>
-                <div>👤 Juan Pérez</div>
-            </div>
-        </div>
-    </header>
-
-    <div class="main-container">
-        <!-- Progress Section -->
-        <div class="progress-section">
-            <h2>Progreso de la Prueba</h2>
-            <div class="progress-bar">
-                <div class="progress-fill" style="width: 45%"></div>
-            </div>
-            <p>Pregunta 9 de 20 • 45% completado</p>
-        </div>
-
-        <!-- Questions Section -->
-        <div class="questions-section">
-            <div class="question-header">
-                <div class="question-number">Pregunta 9/20</div>
-                <div class="question-title">Anatomía y Fisiología</div>
-            </div>
-            <div class="question-content">
-                <p><strong>En un paciente con hipertensión arterial, ¿cuál es el mecanismo principal por el cual los IECA (inhibidores de la enzima convertidora de angiotensina) reducen la presión arterial?</strong></p>
-                
-                <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 250'><rect fill='%23e3f2fd' width='400' height='250' rx='10'/><text x='200' y='125' font-family='Arial' font-size='16' fill='%231976d2' text-anchor='middle' dy='.3em'>Diagrama del Sistema Renina-Angiotensina</text><circle cx='200' cy='125' r='60' fill='none' stroke='%231976d2' stroke-width='3'/><text x='200' y='190' font-family='Arial' font-size='12' fill='%23333' text-anchor='middle'>Riñón → Angiotensina II ↓</text></svg>" alt="Diagrama Sistema Renina-Angiotensina" class="question-image">
-                
-                <div class="options-container">
-                    <label class="option">
-                        <input type="radio" name="q9" value="a">
-                        <span class="option-text">A) Inhibición de la recaptación de sodio en el túbulo proximal</span>
-                    </label>
-                    <label class="option selected">
-                        <input type="radio" name="q9" value="b" checked>
-                        <span class="option-text">B) Prevención de la conversión de angiotensina I a angiotensina II</span>
-                    </label>
-                    <label class="option">
-                        <input type="radio" name="q9" value="c">
-                        <span class="option-text">C) Bloqueo directo de los receptores beta-adrenérgicos</span>
-                    </label>
-                    <label class="option">
-                        <input type="radio" name="q9" value="d">
-                        <span class="option-text">D) Inhibición de la bomba de Na+/K+ ATPasa</span>
-                    </label>
-                </div>
-            </div>
-            <div class="nav-buttons">
-                <button class="btn btn-secondary">← Anterior</button>
-                <button class="btn btn-primary">Siguiente →</button>
-                <button class="btn btn-primary" style="background: #f44336; margin-left: 1rem;">Finalizar Prueba</button>
+            
+            <div class="instructions">
+                Presiona ESPACIO o toca para saltar 🦖
             </div>
         </div>
 
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <!-- Question Navigation -->
-            <div class="question-nav">
-                <h3>📋 Navegación</h3>
-                <div class="questions-list">
-                    <div class="question-item answered">1</div>
-                    <div class="question-item answered">2</div>
-                    <div class="question-item answered">3</div>
-                    <div class="question-item answered">4</div>
-                    <div class="question-item answered">5</div>
-                    <div class="question-item answered">6</div>
-                    <div class="question-item answered">7</div>
-                    <div class="question-item answered">8</div>
-                    <div class="question-item current">9</div>
-                    <div class="question-item unanswered">10</div>
-                    <div class="question-item unanswered">11</div>
-                    <div class="question-item unanswered">12</div>
-                    <div class="question-item unanswered">13</div>
-                    <div class="question-item unanswered">14</div>
-                    <div class="question-item unanswered">15</div>
-                    <div class="question-item unanswered">16</div>
-                    <div class="question-item unanswered">17</div>
-                    <div class="question-item unanswered">18</div>
-                    <div class="question-item unanswered">19</div>
-                    <div class="question-item unanswered">20</div>
-                </div>
-            </div>
-
-            <!-- Statistics -->
-            <div class="stats-card">
-                <h3>📊 Estadísticas</h3>
-                <div class="stat-item">
-                    <span>Preguntas Respondidas</span>
-                    <span class="stat-number">8/20</span>
-                </div>
-                <div class="stat-item">
-                    <span>Tiempo Restante</span>
-                    <span class="stat-number">01:45:23</span>
-                </div>
-                <div class="stat-item">
-                    <span>Puntuación Actual</span>
-                    <span class="stat-number">80%</span>
-                </div>
-            </div>
+        <div class="mobile-controls">
+            <button class="btn" style="padding: 15px; font-size: 1.5rem;" onclick="jump()">⬆️</button>
         </div>
     </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreEl = document.getElementById('score');
+        const highScoreEl = document.getElementById('highScore');
+        const gameOverEl = document.getElementById('gameOver');
+        const finalScoreEl = document.getElementById('finalScore');
+
+        // Game state
+        let gameRunning = true;
+        let score = 0;
+        let highScore = localStorage.getItem('dinoHighScore') || 0;
+        highScoreEl.textContent = `Récord: ${highScore}`;
+
+        // Dino
+        const dino = {
+            x: 50,
+            y: 300,
+            width: 40,
+            height: 40,
+            dy: 0,
+            gravity: 0.6,
+            jumpPower: -14,
+            grounded: false,
+            frame: 0
+        };
+
+        // Obstacles
+        let obstacles = [];
+        let obstacleSpeed = 4;
+        let obstacleTimer = 0;
+
+        // Clouds
+        let clouds = [];
+
+        // Input
+        let keys = {};
+        let touchJump = false;
+
+        // Initialize
+        function init() {
+            obstacles = [];
+            clouds = [];
+            score = 0;
+            dino.y = 300;
+            dino.dy = 0;
+            dino.grounded = true;
+            gameRunning = true;
+            obstacleSpeed = 4;
+            gameOverEl.style.display = 'none';
+            gameLoop();
+        }
+
+        // Event listeners
+        document.addEventListener('keydown', (e) => {
+            keys[e.code] = true;
+            if (e.code === 'Space' && dino.grounded) {
+                dino.dy = dino.jumpPower;
+                dino.grounded = false;
+            }
+        });
+
+        document.addEventListener('keyup', (e) => {
+            keys[e.code] = false;
+        });
+
+        canvas.addEventListener('click', jump);
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            jump();
+        });
+
+        function jump() {
+            if (dino.grounded && gameRunning) {
+                dino.dy = dino.jumpPower;
+                dino.grounded = false;
+            }
+        }
+
+        // Generate clouds
+        function createCloud() {
+            clouds.push({
+                x: canvas.width,
+                y: Math.random() * 100 + 20,
+                size: Math.random() * 30 + 20,
+                speed: Math.random() * 0.5 + 0.2
+            });
+        }
+
+        // Update game
+        function update() {
+            if (!gameRunning) return;
+
+            // Dino physics
+            dino.dy += dino.gravity;
+            dino.y += dino.dy;
+
+            if (dino.y >= 300) {
+                dino.y = 300;
+                dino.dy = 0;
+                dino.grounded = true;
+            }
+
+            // Animation frame
+            dino.frame += 0.2;
+            if (dino.frame > 2) dino.frame = 0;
+
+            // Obstacles
+            obstacleTimer++;
+            if (obstacleTimer > 90 - Math.min(score / 100, 50)) {
+                obstacles.push({
+                    x: canvas.width,
+                    y: 320,
+                    width: 25,
+                    height: 40,
+                    type: Math.random() > 0.5 ? 'cactus' : 'bird'
+                });
+                obstacleTimer = 0;
+            }
+
+            // Update obstacles
+            obstacles = obstacles.filter(obstacle => {
+                obstacle.x -= obstacleSpeed;
+                obstacleSpeed += 0.001;
+                return obstacle.x > -50;
+            });
+
+            // Update clouds
+            clouds.forEach(cloud => {
+                cloud.x -= cloud.speed;
+            });
+            clouds = clouds.filter(cloud => cloud.x > -100);
+
+            if (Math.random() < 0.01) createCloud();
+
+            // Collision detection
+            obstacles.forEach(obstacle => {
+                if (dino.x < obstacle.x + obstacle.width &&
+                    dino.x + dino.width > obstacle.x &&
+                    dino.y < obstacle.y + obstacle.height &&
+                    dino.y + dino.height > obstacle.y) {
+                    gameOver();
+                }
+            });
+
+            // Update score
+            score++;
+            scoreEl.textContent = `Puntos: ${Math.floor(score / 10)}`;
+        }
+
+        // Render
+        function render() {
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Ground
+            ctx.fillStyle = '#F4A261';
+            ctx.fillRect(0, 340, canvas.width, 60);
+
+            // Clouds
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+            clouds.forEach(cloud => {
+                ctx.beginPath();
+                ctx.arc(cloud.x, cloud.y, cloud.size, 0, Math.PI * 2);
+                ctx.arc(cloud.x + cloud.size * 0.3, cloud.y, cloud.size * 0.7, 0, Math.PI * 2);
+                ctx.arc(cloud.x + cloud.size * 0.6, cloud.y, cloud.size * 0.8, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            // Dino
+            ctx.fillStyle = '#4a7c59';
+            ctx.shadowColor = 'rgba(0,0,0,0.3)';
+            ctx.shadowBlur = 10;
+            
+            // Body
+            ctx.fillRect(dino.x, dino.y, dino.width, dino.height);
+            
+            // Head
+            ctx.fillRect(dino.x + dino.width - 15, dino.y - 10, 20, 20);
+            
+            // Eye
+            ctx.fillStyle = 'white';
+            ctx.fillRect(dino.x + dino.width - 8, dino.y - 5, 6, 6);
+            ctx.fillStyle = 'black';
+            ctx.fillRect(dino.x + dino.width - 6, dino.y - 3, 3, 3);
+            
+            // Legs animation
+            ctx.fillStyle = '#3a5c49';
+            const legOffset = dino.grounded ? Math.sin(dino.frame) * 3 : 0;
+            ctx.fillRect(dino.x + 5, dino.y + dino.height - 5, 8, 15 + legOffset);
+            ctx.fillRect(dino.x + 25, dino.y + dino.height - 5, 8, 15 - legOffset);
+            
+            ctx.shadowBlur = 0;
+
+            // Obstacles
+            obstacles.forEach(obstacle => {
+                ctx.shadowColor = 'rgba(0,0,0,0.5)';
+                ctx.shadowBlur = 15;
+                
+                if (obstacle.type === 'cactus') {
+                    ctx.fillStyle = '#2d5a27';
+                    ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+                    ctx.fillRect(obstacle.x + 5, obstacle.y - 10, 15, 15);
+                } else {
+                    // Bird
+                    ctx.fillStyle = '#ff6b6b';
+                    ctx.beginPath();
+                    ctx.arc(obstacle.x + 12, obstacle.y + 10, 12, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.fillStyle = '#ff8e8e';
+                    ctx.fillRect(obstacle.x + 5, obstacle.y + 18, 20, 8);
+                }
+                
+                ctx.shadowBlur = 0;
+            });
+        }
+
+        // Game loop
+        function gameLoop() {
+            update();
+            render();
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Game over
+        function gameOver() {
+            gameRunning = false;
+            if (Math.floor(score / 10) > highScore) {
+                highScore = Math.floor(score / 10);
+                localStorage.setItem('dinoHighScore', highScore);
+                highScoreEl.textContent = `Récord: ${highScore}`;
+                finalScoreEl.innerHTML = `Puntos: ${Math.floor(score / 10)}<br>🥇 ¡Nuevo Récord!`;
+            } else {
+                finalScoreEl.textContent = `Puntos: ${Math.floor(score / 10)}`;
+            }
+            gameOverEl.style.display = 'block';
+        }
+
+        // Restart
+        function restartGame() {
+            init();
+        }
+
+        // Start game
+        init();
+    </script>
 </body>
 </html>
