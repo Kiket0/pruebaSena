@@ -1,13 +1,455 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aplicacion Global</title>
+    <title>Prueba Sena - Medicina y Salud</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 50%, #e8f5e8 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header Sena Style */
+        header {
+            background: linear-gradient(90deg, #1976d2, #42a5f5);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo-sena {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-sena img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: white;
+            padding: 0.5rem;
+        }
+
+        .logo-text h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .timer {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 2rem;
+        }
+
+        /* Progress Bar */
+        .progress-section {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .progress-bar {
+            background: #f5f5f5;
+            height: 12px;
+            border-radius: 6px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4caf50, #8bc34a);
+            width: 45%;
+            transition: width 0.3s ease;
+            border-radius: 6px;
+        }
+
+        /* Question Section */
+        .questions-section {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .question-header {
+            background: linear-gradient(90deg, #1976d2, #42a5f5);
+            color: white;
+            padding: 1.5rem;
+        }
+
+        .question-number {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .question-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .question-content {
+            padding: 2rem;
+        }
+
+        .question-image {
+            width: 100%;
+            max-width: 400px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin: 1rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Options */
+        .options-container {
+            margin: 2rem 0;
+        }
+
+        .option {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1.2rem;
+            margin-bottom: 1rem;
+            background: #f8f9fa;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option:hover {
+            background: #e3f2fd;
+            border-color: #2196f3;
+            transform: translateX(5px);
+        }
+
+        .option.selected {
+            background: #e8f5e8;
+            border-color: #4caf50;
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+        }
+
+        .option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            margin-top: 0.2rem;
+            accent-color: #1976d2;
+        }
+
+        .option-text {
+            flex: 1;
+            font-size: 1.1rem;
+        }
+
+        /* Navigation Buttons */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            padding: 2rem;
+            border-top: 1px solid #eee;
+            background: #f8f9fa;
+        }
+
+        .btn {
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #1976d2, #42a5f5);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(25, 118, 210, 0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .question-nav {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+        }
+
+        .question-nav h3 {
+            margin-bottom: 1rem;
+            color: #1976d2;
+        }
+
+        .questions-list {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0.5rem;
+        }
+
+        .question-item {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid #e0e0e0;
+        }
+
+        .question-item:hover {
+            transform: scale(1.1);
+        }
+
+        .question-item.answered {
+            background: #4caf50;
+            color: white;
+            border-color: #4caf50;
+        }
+
+        .question-item.current {
+            background: #1976d2;
+            color: white;
+            border-color: #1976d2;
+        }
+
+        .question-item.unanswered {
+            background: #fff3cd;
+            color: #856404;
+            border-color: #ffeaa7;
+        }
+
+        /* Statistics Card */
+        .stats-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .stat-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1976d2;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                padding: 0 1rem;
+            }
+
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .questions-list {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
+    <header>
+        <div class="header-container">
+            <div class="logo-sena">
+                <div style="width: 60px; height: 60px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #1976d2; font-weight: bold;">SENA</div>
+                <div class="logo-text">
+                    <h1>Prueba de Competencias</h1>
+                    <p>Medicina y Salud</p>
+                </div>
+            </div>
+            <div class="user-info">
+                <div class="timer">
+                    ⏱️ 01:45:23
+                </div>
+                <div>👤 Juan Pérez</div>
+            </div>
+        </div>
+    </header>
 
-    <h1> Hola mundo </h1>
-    
+    <div class="main-container">
+        <!-- Progress Section -->
+        <div class="progress-section">
+            <h2>Progreso de la Prueba</h2>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 45%"></div>
+            </div>
+            <p>Pregunta 9 de 20 • 45% completado</p>
+        </div>
+
+        <!-- Questions Section -->
+        <div class="questions-section">
+            <div class="question-header">
+                <div class="question-number">Pregunta 9/20</div>
+                <div class="question-title">Anatomía y Fisiología</div>
+            </div>
+            <div class="question-content">
+                <p><strong>En un paciente con hipertensión arterial, ¿cuál es el mecanismo principal por el cual los IECA (inhibidores de la enzima convertidora de angiotensina) reducen la presión arterial?</strong></p>
+                
+                <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 250'><rect fill='%23e3f2fd' width='400' height='250' rx='10'/><text x='200' y='125' font-family='Arial' font-size='16' fill='%231976d2' text-anchor='middle' dy='.3em'>Diagrama del Sistema Renina-Angiotensina</text><circle cx='200' cy='125' r='60' fill='none' stroke='%231976d2' stroke-width='3'/><text x='200' y='190' font-family='Arial' font-size='12' fill='%23333' text-anchor='middle'>Riñón → Angiotensina II ↓</text></svg>" alt="Diagrama Sistema Renina-Angiotensina" class="question-image">
+                
+                <div class="options-container">
+                    <label class="option">
+                        <input type="radio" name="q9" value="a">
+                        <span class="option-text">A) Inhibición de la recaptación de sodio en el túbulo proximal</span>
+                    </label>
+                    <label class="option selected">
+                        <input type="radio" name="q9" value="b" checked>
+                        <span class="option-text">B) Prevención de la conversión de angiotensina I a angiotensina II</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q9" value="c">
+                        <span class="option-text">C) Bloqueo directo de los receptores beta-adrenérgicos</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q9" value="d">
+                        <span class="option-text">D) Inhibición de la bomba de Na+/K+ ATPasa</span>
+                    </label>
+                </div>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn btn-secondary">← Anterior</button>
+                <button class="btn btn-primary">Siguiente →</button>
+                <button class="btn btn-primary" style="background: #f44336; margin-left: 1rem;">Finalizar Prueba</button>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- Question Navigation -->
+            <div class="question-nav">
+                <h3>📋 Navegación</h3>
+                <div class="questions-list">
+                    <div class="question-item answered">1</div>
+                    <div class="question-item answered">2</div>
+                    <div class="question-item answered">3</div>
+                    <div class="question-item answered">4</div>
+                    <div class="question-item answered">5</div>
+                    <div class="question-item answered">6</div>
+                    <div class="question-item answered">7</div>
+                    <div class="question-item answered">8</div>
+                    <div class="question-item current">9</div>
+                    <div class="question-item unanswered">10</div>
+                    <div class="question-item unanswered">11</div>
+                    <div class="question-item unanswered">12</div>
+                    <div class="question-item unanswered">13</div>
+                    <div class="question-item unanswered">14</div>
+                    <div class="question-item unanswered">15</div>
+                    <div class="question-item unanswered">16</div>
+                    <div class="question-item unanswered">17</div>
+                    <div class="question-item unanswered">18</div>
+                    <div class="question-item unanswered">19</div>
+                    <div class="question-item unanswered">20</div>
+                </div>
+            </div>
+
+            <!-- Statistics -->
+            <div class="stats-card">
+                <h3>📊 Estadísticas</h3>
+                <div class="stat-item">
+                    <span>Preguntas Respondidas</span>
+                    <span class="stat-number">8/20</span>
+                </div>
+                <div class="stat-item">
+                    <span>Tiempo Restante</span>
+                    <span class="stat-number">01:45:23</span>
+                </div>
+                <div class="stat-item">
+                    <span>Puntuación Actual</span>
+                    <span class="stat-number">80%</span>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
